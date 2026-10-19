@@ -21,4 +21,52 @@ class KompetensiController extends Controller
             'selectedJurusan' => $jurusanId,
         ]);
     }
+
+    public function create()
+    {
+        return view('kompetensi.create', [
+            'jurusans' => Jurusan::orderBy('nama')->get(),
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'jurusan_id' => 'required|exists:jurusan,id',
+            'kode' => 'required|string|max:20',
+            'nama' => 'required|string|max:255',
+        ]);
+
+        Kompetensi::create($validated);
+
+        return redirect()->route('kompetensi.index');
+    }
+
+    public function edit(Kompetensi $kompetensi)
+    {
+        return view('kompetensi.edit', [
+            'kompetensi' => $kompetensi,
+            'jurusans' => Jurusan::orderBy('nama')->get(),
+        ]);
+    }
+
+    public function update(Request $request, Kompetensi $kompetensi)
+    {
+        $validated = $request->validate([
+            'jurusan_id' => 'required|exists:jurusan,id',
+            'kode' => 'required|string|max:20',
+            'nama' => 'required|string|max:255',
+        ]);
+
+        $kompetensi->update($validated);
+
+        return redirect()->route('kompetensi.index');
+    }
+
+    public function destroy(Kompetensi $kompetensi)
+    {
+        $kompetensi->delete();
+
+        return redirect()->route('kompetensi.index');
+    }
 }

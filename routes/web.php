@@ -8,5 +8,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 Route::resource('jurusan', JurusanController::class)->except('show');
-Route::get('/kompetensi', [KompetensiController::class, 'index'])->name('kompetensi.index');
+Route::resource('kompetensi', KompetensiController::class)->except('show');
 Route::get('/pencarian', [SearchController::class, 'index'])->name('search.index');
