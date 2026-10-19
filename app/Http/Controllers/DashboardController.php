@@ -13,6 +13,9 @@ class DashboardController extends Controller
         return view('dashboard', [
             'latestJurusan' => Jurusan::latest()->take(5)->get(),
             'latestKompetensi' => Kompetensi::with('jurusan')->latest()->take(5)->get(),
+            'totalJurusan' => Jurusan::count(),
+            'totalKompetensi' => Kompetensi::count(),
+            'kompetensiPerJurusan' => Jurusan::withCount('kompetensi')->orderBy('nama')->get(),
         ]);
     }
 }
