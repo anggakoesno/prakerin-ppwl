@@ -13,7 +13,7 @@ class JurusanController extends Controller
     public function index()
     {
         return view('jurusan.index', [
-            'jurusans' => Jurusan::withCount('kompetensi')->orderBy('nama')->get(),
+            'jurusans' => Jurusan::withCount('kompetensi')->orderBy('nama')->paginate(10),
         ]);
     }
 
@@ -37,7 +37,7 @@ class JurusanController extends Controller
 
         Jurusan::create($validated);
 
-        return redirect()->route('jurusan.index');
+        return redirect()->route('jurusan.index')->with('success', 'Jurusan berhasil ditambahkan.');
     }
 
     /**
@@ -62,7 +62,7 @@ class JurusanController extends Controller
 
         $jurusan->update($validated);
 
-        return redirect()->route('jurusan.index');
+        return redirect()->route('jurusan.index')->with('success', 'Jurusan berhasil diperbarui.');
     }
 
     /**
@@ -72,6 +72,6 @@ class JurusanController extends Controller
     {
         $jurusan->delete();
 
-        return redirect()->route('jurusan.index');
+        return redirect()->route('jurusan.index')->with('success', 'Jurusan berhasil dihapus.');
     }
 }
