@@ -3,7 +3,10 @@
 @section('title', 'Kompetensi')
 
 @section('content')
-    <h1>Data Kompetensi</h1>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h1 style="margin-bottom: 0;">Data Kompetensi</h1>
+        <a href="{{ route('kompetensi.create') }}" style="padding: 0.45rem 1rem; background: #1b1b18; color: #fff; border-radius: 4px; text-decoration: none; font-size: 0.9rem;">Tambah Kompetensi</a>
+    </div>
 
     <div class="card">
         <form method="GET" action="{{ route('kompetensi.index') }}" style="margin-bottom: 1rem; display: flex; gap: 0.75rem; align-items: end;">
@@ -28,6 +31,7 @@
                     <th style="padding: 0.5rem;">Kode</th>
                     <th style="padding: 0.5rem;">Nama</th>
                     <th style="padding: 0.5rem;">Jurusan</th>
+                    <th style="padding: 0.5rem;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,10 +40,18 @@
                         <td style="padding: 0.5rem;">{{ $item->kode }}</td>
                         <td style="padding: 0.5rem;">{{ $item->nama }}</td>
                         <td style="padding: 0.5rem;">{{ $item->jurusan->nama }}</td>
+                        <td style="padding: 0.5rem;">
+                            <a href="{{ route('kompetensi.edit', $item) }}" style="color: #06c; margin-right: 0.75rem;">Edit</a>
+                            <form method="POST" action="{{ route('kompetensi.destroy', $item) }}" style="display: inline;" onsubmit="return confirm('Hapus kompetensi ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" style="background: none; border: none; color: #c00; cursor: pointer; padding: 0; font-size: 0.9rem;">Hapus</button>
+                            </form>
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="3" style="padding: 0.5rem; color: #777;">Tidak ada data kompetensi.</td>
+                        <td colspan="4" style="padding: 0.5rem; color: #777;">Tidak ada data kompetensi.</td>
                     </tr>
                 @endforelse
             </tbody>
