@@ -34,6 +34,11 @@
         </form>
     </nav>
     <main>
+        @if (session('success'))
+            <div style="background: #e6f6e6; border: 1px solid #9fd89f; color: #1e6b23; padding: 0.65rem 1rem; border-radius: 4px; margin-bottom: 1rem; font-size: 0.9rem;">
+                {{ session('success') }}
+            </div>
+        @endif
         @yield('content')
     </main>
 </body>

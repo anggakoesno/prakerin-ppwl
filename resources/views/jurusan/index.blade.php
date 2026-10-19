@@ -15,6 +15,7 @@
                     <th style="padding: 0.5rem;">Kode</th>
                     <th style="padding: 0.5rem;">Nama</th>
                     <th style="padding: 0.5rem;">Jumlah Kompetensi</th>
+                    <th style="padding: 0.5rem;">Dibuat</th>
                     <th style="padding: 0.5rem;">Aksi</th>
                 </tr>
             </thead>
@@ -24,6 +25,7 @@
                         <td style="padding: 0.5rem;">{{ $jurusan->kode }}</td>
                         <td style="padding: 0.5rem;">{{ $jurusan->nama }}</td>
                         <td style="padding: 0.5rem;">{{ $jurusan->kompetensi_count }}</td>
+                        <td style="padding: 0.5rem;">{{ $jurusan->created_at->format('d M Y') }}</td>
                         <td style="padding: 0.5rem;">
                             <a href="{{ route('jurusan.edit', $jurusan) }}" style="color: #06c; margin-right: 0.75rem;">Edit</a>
                             <form method="POST" action="{{ route('jurusan.destroy', $jurusan) }}" style="display: inline;" onsubmit="return confirm('Hapus jurusan ini?')">
@@ -35,10 +37,14 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" style="padding: 0.5rem; color: #777;">Belum ada data jurusan.</td>
+                        <td colspan="5" style="padding: 0.5rem; color: #777;">Belum ada data jurusan.</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
+
+        <div style="margin-top: 1rem;">
+            {{ $jurusans->links() }}
+        </div>
     </div>
 @endsection

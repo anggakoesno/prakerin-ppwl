@@ -16,7 +16,8 @@ class KompetensiController extends Controller
             'kompetensi' => Kompetensi::with('jurusan')
                 ->when($jurusanId, fn ($query) => $query->where('jurusan_id', $jurusanId))
                 ->latest()
-                ->get(),
+                ->paginate(10)
+                ->withQueryString(),
             'jurusans' => Jurusan::orderBy('nama')->get(),
             'selectedJurusan' => $jurusanId,
         ]);
@@ -39,7 +40,7 @@ class KompetensiController extends Controller
 
         Kompetensi::create($validated);
 
-        return redirect()->route('kompetensi.index');
+        return redirect()->route('kompetensi.index')->with('success', 'Kompetensi berhasil ditambahkan.');
     }
 
     public function edit(Kompetensi $kompetensi)
@@ -60,13 +61,13 @@ class KompetensiController extends Controller
 
         $kompetensi->update($validated);
 
-        return redirect()->route('kompetensi.index');
+        return redirect()->route('kompetensi.index')->with('success', 'Kompetensi berhasil diperbarui.');
     }
 
     public function destroy(Kompetensi $kompetensi)
     {
         $kompetensi->delete();
 
-        return redirect()->route('kompetensi.index');
+        return redirect()->route('kompetensi.index')->with('success', 'Kompetensi berhasil dihapus.');
     }
 }

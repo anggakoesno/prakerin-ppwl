@@ -31,6 +31,7 @@
                     <th style="padding: 0.5rem;">Kode</th>
                     <th style="padding: 0.5rem;">Nama</th>
                     <th style="padding: 0.5rem;">Jurusan</th>
+                    <th style="padding: 0.5rem;">Dibuat</th>
                     <th style="padding: 0.5rem;">Aksi</th>
                 </tr>
             </thead>
@@ -40,6 +41,7 @@
                         <td style="padding: 0.5rem;">{{ $item->kode }}</td>
                         <td style="padding: 0.5rem;">{{ $item->nama }}</td>
                         <td style="padding: 0.5rem;">{{ $item->jurusan->nama }}</td>
+                        <td style="padding: 0.5rem;">{{ $item->created_at->format('d M Y') }}</td>
                         <td style="padding: 0.5rem;">
                             <a href="{{ route('kompetensi.edit', $item) }}" style="color: #06c; margin-right: 0.75rem;">Edit</a>
                             <form method="POST" action="{{ route('kompetensi.destroy', $item) }}" style="display: inline;" onsubmit="return confirm('Hapus kompetensi ini?')">
@@ -51,10 +53,14 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" style="padding: 0.5rem; color: #777;">Tidak ada data kompetensi.</td>
+                        <td colspan="5" style="padding: 0.5rem; color: #777;">Tidak ada data kompetensi.</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
+
+        <div style="margin-top: 1rem;">
+            {{ $kompetensi->links() }}
+        </div>
     </div>
 @endsection
