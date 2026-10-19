@@ -20,6 +20,17 @@
     <nav>
         <a href="{{ route('dashboard') }}" class="brand">{{ config('app.name', 'Prakerin') }}</a>
         <a href="{{ route('dashboard') }}">Dashboard</a>
+        <a href="{{ route('kompetensi.index') }}">Kompetensi</a>
+        <form method="GET" action="{{ route('search.index') }}" style="margin-left: auto; display: flex; gap: 0.5rem;">
+            <input
+                type="text"
+                name="q"
+                value="{{ request('q') }}"
+                placeholder="Cari..."
+                style="padding: 0.3rem 0.5rem; border: 1px solid #ccc; border-radius: 4px; font-size: 0.85rem;"
+            >
+            <button type="submit" style="padding: 0.3rem 0.75rem; background: #1b1b18; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">Cari</button>
+        </form>
     </nav>
     <main>
         @yield('content')
