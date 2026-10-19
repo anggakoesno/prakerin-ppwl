@@ -20,6 +20,7 @@
     <nav>
         <a href="{{ route('dashboard') }}" class="brand">{{ config('app.name', 'Prakerin') }}</a>
         <a href="{{ route('dashboard') }}">Dashboard</a>
+        <a href="{{ route('jurusan.index') }}">Jurusan</a>
         <a href="{{ route('kompetensi.index') }}">Kompetensi</a>
         <form method="GET" action="{{ route('search.index') }}" style="margin-left: auto; display: flex; gap: 0.5rem;">
             <input
