@@ -19,8 +19,13 @@
                     @endforeach
                 </select>
             </div>
+            <div>
+                <label for="tanggal" style="display: block; font-size: 0.85rem; margin-bottom: 0.25rem;">Tanggal Dibuat</label>
+                <input type="date" name="tanggal" id="tanggal" value="{{ $selectedTanggal ?? '' }}"
+                    style="padding: 0.35rem 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+            </div>
             <button type="submit" style="padding: 0.45rem 1rem; background: #1b1b18; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Filter</button>
-            @if ($selectedJurusan)
+            @if ($selectedJurusan || $selectedTanggal)
                 <a href="{{ route('kompetensi.index') }}" style="padding: 0.45rem 0.5rem; color: #444; font-size: 0.85rem;">Reset</a>
             @endif
         </form>
@@ -28,6 +33,7 @@
         <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
             <thead>
                 <tr style="border-bottom: 1px solid #e3e3e0; text-align: left;">
+                    <th style="padding: 0.5rem;">No.</th>
                     <th style="padding: 0.5rem;">Kode</th>
                     <th style="padding: 0.5rem;">Nama</th>
                     <th style="padding: 0.5rem;">Jurusan</th>
@@ -38,10 +44,11 @@
             <tbody>
                 @forelse ($kompetensi as $item)
                     <tr style="border-bottom: 1px solid #f0f0f0;">
+                        <td style="padding: 0.5rem;">{{ $kompetensi->firstItem() + $loop->index }}</td>
                         <td style="padding: 0.5rem;">{{ $item->kode }}</td>
                         <td style="padding: 0.5rem;">{{ $item->nama }}</td>
                         <td style="padding: 0.5rem;">{{ $item->jurusan->nama }}</td>
-                        <td style="padding: 0.5rem;">{{ $item->created_at->format('d M Y') }}</td>
+                        <td style="padding: 0.5rem;">{{ $item->created_at->isoFormat('D MMM YYYY') }}</td>
                         <td style="padding: 0.5rem;">
                             <a href="{{ route('kompetensi.edit', $item) }}" style="color: #06c; margin-right: 0.75rem;">Edit</a>
                             <form method="POST" action="{{ route('kompetensi.destroy', $item) }}" style="display: inline;" onsubmit="return confirm('Hapus kompetensi ini?')">
@@ -53,7 +60,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" style="padding: 0.5rem; color: #777;">Tidak ada data kompetensi.</td>
+                        <td colspan="6" style="padding: 0.5rem; color: #777;">Tidak ada data kompetensi.</td>
                     </tr>
                 @endforelse
             </tbody>
