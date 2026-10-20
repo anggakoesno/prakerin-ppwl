@@ -11,15 +11,18 @@ class KompetensiController extends Controller
     public function index(Request $request)
     {
         $jurusanId = $request->integer('jurusan_id');
+        $tanggal = $request->filled('tanggal') ? $request->date('tanggal')->toDateString() : null;
 
         return view('kompetensi.index', [
             'kompetensi' => Kompetensi::with('jurusan')
                 ->when($jurusanId, fn ($query) => $query->where('jurusan_id', $jurusanId))
+                ->when($tanggal, fn ($query) => $query->whereDate('created_at', $tanggal))
                 ->latest()
                 ->paginate(10)
                 ->withQueryString(),
             'jurusans' => Jurusan::orderBy('nama')->get(),
             'selectedJurusan' => $jurusanId,
+            'selectedTanggal' => $tanggal,
         ]);
     }
 
