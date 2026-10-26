@@ -15,7 +15,7 @@
 <body class="bg-light">
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
         <div class="container">
-            <a class="navbar-brand fw-semibold" href="{{ route('dashboard') }}">{{ config('app.name', 'Prakerin') }}</a>
+            <a class="navbar-brand fw-semibold" href="{{ route('dashboard') }}">Prakerin</a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
                 aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
