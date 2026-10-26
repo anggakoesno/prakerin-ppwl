@@ -1,109 +1,96 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Dashboard')</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        body {
-            font-family: system-ui, sans-serif;
-            background: #ffffff;
-            color: #1b1b18;
-        }
+    <title>@yield('title', 'Dashboard') - Prakerin</title>
 
-        nav {
-            background: #fff;
-            border-bottom: 1px solid #e3e3e0;
-            padding: 0.75rem 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        nav .brand {
-            font-weight: 600;
-            text-decoration: none;
-            color: #1b1b18;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #444;
-            font-size: 0.9rem;
-        }
-
-        nav a:hover {
-            color: #1b1b18;
-        }
-
-        main {
-            max-width: 960px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
-
-        h1 {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-        }
-
-        .card {
-            background: #fff;
-            border: 1px solid #e3e3e0;
-            border-radius: 6px;
-            padding: 1.25rem;
-        }
-    </style>
     <!-- Scripts and Styles -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-
 </head>
 
-<body>
-    <nav>
-        <a href="{{ route('dashboard') }}" class="brand">Prakerin</a>
-        <a href="{{ route('dashboard') }}">Dashboard</a>
-        <a href="{{ route('jurusan.index') }}">Jurusan</a>
-        <a href="{{ route('kompetensi.index') }}">Kompetensi</a>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+        <div class="container">
+            <a class="navbar-brand fw-semibold" href="{{ route('dashboard') }}">{{ config('app.name', 'Prakerin') }}</a>
 
-        <form method="GET" action="{{ route('search.index') }}" style="margin-left: auto; display: flex; gap: 0.5rem;">
-            <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari..."
-                style="padding: 0.3rem 0.5rem; border: 1px solid #ccc; border-radius: 4px; font-size: 0.85rem;">
-            <button type="submit"
-                style="padding: 0.3rem 0.75rem; background: #1b1b18; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">Cari</button>
-        </form>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        @guest
-            <a href="{{ route('login') }}">Login</a>
-            @if (Route::has('register'))
-                <a href="{{ route('register') }}">Register</a>
-            @endif
-        @else
-            <span style="font-size: 0.9rem; color: #444;">{{ Auth::user()->name }}</span>
-            <a href="{{ route('logout') }}"
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                Logout
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                @csrf
-            </form>
-        @endguest
-    </nav>
-    <main>
-        @if (session('success'))
-            <div
-                style="background: #e6f6e6; border: 1px solid #9fd89f; color: #1e6b23; padding: 0.65rem 1rem; border-radius: 4px; margin-bottom: 1rem; font-size: 0.9rem;">
-                {{ session('success') }}
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+                            href="{{ route('dashboard') }}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('jurusan.*') ? 'active' : '' }}"
+                            href="{{ route('jurusan.index') }}">Jurusan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('kompetensi.*') ? 'active' : '' }}"
+                            href="{{ route('kompetensi.index') }}">Kompetensi</a>
+                    </li>
+                </ul>
+
+                <form method="GET" action="{{ route('search.index') }}" class="d-flex me-2" role="search">
+                    <input class="form-control form-control-sm me-2" type="search" name="q"
+                        value="{{ request('q') }}" placeholder="Cari..." aria-label="Cari">
+                    <button class="btn btn-sm btn-dark" type="submit">Cari</button>
+                </form>
+
+                @guest
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">Login</a>
+                        </li>
+                        @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">Register</a>
+                            </li>
+                        @endif
+                    </ul>
+                @else
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ Auth::user()->name }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                @endguest
             </div>
-        @endif
-        @yield('content')
+        </div>
+    </nav>
+
+    <main class="py-4">
+        <div class="container">
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @yield('content')
+        </div>
     </main>
 </body>
 
