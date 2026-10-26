@@ -3,50 +3,56 @@
 @section('title', 'Data Jurusan')
 
 @section('content')
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <h1 style="margin-bottom: 0;">Data Jurusan</h1>
-        <a href="{{ route('jurusan.create') }}" style="padding: 0.45rem 1rem; background: #1b1b18; color: #fff; border-radius: 4px; text-decoration: none; font-size: 0.9rem;">Tambah Jurusan</a>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="mb-0">Data Jurusan</h1>
+        <a href="{{ route('jurusan.create') }}" class="btn btn-dark btn-sm">Tambah Jurusan</a>
     </div>
 
-    <div class="card">
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-            <thead>
-                <tr style="border-bottom: 1px solid #e3e3e0; text-align: left;">
-                    <th style="padding: 0.5rem;">No.</th>
-                    <th style="padding: 0.5rem;">Kode</th>
-                    <th style="padding: 0.5rem;">Nama</th>
-                    <th style="padding: 0.5rem;">Jumlah Kompetensi</th>
-                    <th style="padding: 0.5rem;">Dibuat</th>
-                    <th style="padding: 0.5rem;">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($jurusans as $jurusan)
-                    <tr style="border-bottom: 1px solid #f0f0f0;">
-                        <td style="padding: 0.5rem;">{{ $jurusans->firstItem() + $loop->index }}</td>
-                        <td style="padding: 0.5rem;">{{ $jurusan->kode }}</td>
-                        <td style="padding: 0.5rem;">{{ $jurusan->nama }}</td>
-                        <td style="padding: 0.5rem;">{{ $jurusan->kompetensi_count }}</td>
-                        <td style="padding: 0.5rem;">{{ $jurusan->created_at->isoFormat('D MMM YYYY') }}</td>
-                        <td style="padding: 0.5rem;">
-                            <a href="{{ route('jurusan.edit', $jurusan) }}" style="color: #06c; margin-right: 0.75rem;">Edit</a>
-                            <form method="POST" action="{{ route('jurusan.destroy', $jurusan) }}" style="display: inline;" onsubmit="return confirm('Hapus jurusan ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" style="background: none; border: none; color: #c00; cursor: pointer; padding: 0; font-size: 0.9rem;">Hapus</button>
-                            </form>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="6" style="padding: 0.5rem; color: #777;">Belum ada data jurusan.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-
-        <div style="margin-top: 1rem;">
-            {{ $jurusans->links() }}
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>No.</th>
+                            <th>Kode</th>
+                            <th>Nama</th>
+                            <th>Jumlah Kompetensi</th>
+                            <th>Dibuat</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($jurusans as $jurusan)
+                            <tr>
+                                <td>{{ $jurusans->firstItem() + $loop->index }}</td>
+                                <td>{{ $jurusan->kode }}</td>
+                                <td>{{ $jurusan->nama }}</td>
+                                <td>{{ $jurusan->kompetensi_count }}</td>
+                                <td>{{ $jurusan->created_at->isoFormat('D MMM YYYY') }}</td>
+                                <td>
+                                    <a href="{{ route('jurusan.edit', $jurusan) }}"
+                                        class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                                    <form method="POST" action="{{ route('jurusan.destroy', $jurusan) }}" class="d-inline"
+                                        onsubmit="return confirm('Hapus jurusan ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Hapus</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center text-muted">Belum ada data jurusan.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </div>
+
+    <div class="mt-3">
+        {{ $jurusans->links() }}
     </div>
 @endsection

@@ -3,92 +3,112 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    <h1>Dashboard</h1>
+    <h1 class="mb-4">Dashboard</h1>
 
-    <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
-        <div class="card" style="flex: 1;">
-            <div style="font-size: 0.85rem; color: #777;">Total Jurusan</div>
-            <div style="font-size: 1.6rem; font-weight: 600;">{{ $totalJurusan }}</div>
+    <div class="row g-3 mb-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="text-muted small">Total Jurusan</div>
+                    <div class="fs-3 fw-bold">{{ $totalJurusan }}</div>
+                </div>
+            </div>
         </div>
-        <div class="card" style="flex: 1;">
-            <div style="font-size: 0.85rem; color: #777;">Total Kompetensi</div>
-            <div style="font-size: 1.6rem; font-weight: 600;">{{ $totalKompetensi }}</div>
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="text-muted small">Total Kompetensi</div>
+                    <div class="fs-3 fw-bold">{{ $totalKompetensi }}</div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="card" style="margin-bottom: 1.5rem;">
-        <h2 style="font-size: 1.1rem; margin-bottom: 0.75rem;">Jumlah Kompetensi per Jurusan</h2>
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-            <thead>
-                <tr style="border-bottom: 1px solid #e3e3e0; text-align: left;">
-                    <th style="padding: 0.5rem;">Kode</th>
-                    <th style="padding: 0.5rem;">Nama</th>
-                    <th style="padding: 0.5rem;">Jumlah Kompetensi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($kompetensiPerJurusan as $jurusan)
-                    <tr style="border-bottom: 1px solid #f0f0f0;">
-                        <td style="padding: 0.5rem;">{{ $jurusan->kode }}</td>
-                        <td style="padding: 0.5rem;">{{ $jurusan->nama }}</td>
-                        <td style="padding: 0.5rem;">{{ $jurusan->kompetensi_count }}</td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="3" style="padding: 0.5rem; color: #777;">Belum ada data.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+    <div class="card shadow-sm mb-4">
+        <div class="card-header fw-semibold">Jumlah Kompetensi per Jurusan</div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Kode</th>
+                            <th>Nama</th>
+                            <th>Jumlah Kompetensi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($kompetensiPerJurusan as $jurusan)
+                            <tr>
+                                <td>{{ $jurusan->kode }}</td>
+                                <td>{{ $jurusan->nama }}</td>
+                                <td>{{ $jurusan->kompetensi_count }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="text-center text-muted">Belum ada data.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
-    <div class="card" style="margin-bottom: 1.5rem;">
-        <h2 style="font-size: 1.1rem; margin-bottom: 0.75rem;">5 Jurusan Terbaru</h2>
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-            <thead>
-                <tr style="border-bottom: 1px solid #e3e3e0; text-align: left;">
-                    <th style="padding: 0.5rem;">Kode</th>
-                    <th style="padding: 0.5rem;">Nama</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($latestJurusan as $jurusan)
-                    <tr style="border-bottom: 1px solid #f0f0f0;">
-                        <td style="padding: 0.5rem;">{{ $jurusan->kode }}</td>
-                        <td style="padding: 0.5rem;">{{ $jurusan->nama }}</td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="2" style="padding: 0.5rem; color: #777;">Belum ada data.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+    <div class="card shadow-sm mb-4">
+        <div class="card-header fw-semibold">5 Jurusan Terbaru</div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Kode</th>
+                            <th>Nama</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($latestJurusan as $jurusan)
+                            <tr>
+                                <td>{{ $jurusan->kode }}</td>
+                                <td>{{ $jurusan->nama }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="2" class="text-center text-muted">Belum ada data.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
-    <div class="card">
-        <h2 style="font-size: 1.1rem; margin-bottom: 0.75rem;">5 Kompetensi Terbaru</h2>
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-            <thead>
-                <tr style="border-bottom: 1px solid #e3e3e0; text-align: left;">
-                    <th style="padding: 0.5rem;">Kode</th>
-                    <th style="padding: 0.5rem;">Nama</th>
-                    <th style="padding: 0.5rem;">Jurusan</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($latestKompetensi as $kompetensi)
-                    <tr style="border-bottom: 1px solid #f0f0f0;">
-                        <td style="padding: 0.5rem;">{{ $kompetensi->kode }}</td>
-                        <td style="padding: 0.5rem;">{{ $kompetensi->nama }}</td>
-                        <td style="padding: 0.5rem;">{{ $kompetensi->jurusan->nama }}</td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="3" style="padding: 0.5rem; color: #777;">Belum ada data.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+    <div class="card shadow-sm">
+        <div class="card-header fw-semibold">5 Kompetensi Terbaru</div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Kode</th>
+                            <th>Nama</th>
+                            <th>Jurusan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($latestKompetensi as $kompetensi)
+                            <tr>
+                                <td>{{ $kompetensi->kode }}</td>
+                                <td>{{ $kompetensi->nama }}</td>
+                                <td>{{ $kompetensi->jurusan->nama }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="text-center text-muted">Belum ada data.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 @endsection

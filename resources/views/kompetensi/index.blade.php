@@ -3,71 +3,81 @@
 @section('title', 'Data Kompetensi')
 
 @section('content')
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <h1 style="margin-bottom: 0;">Data Kompetensi</h1>
-        <a href="{{ route('kompetensi.create') }}" style="padding: 0.45rem 1rem; background: #1b1b18; color: #fff; border-radius: 4px; text-decoration: none; font-size: 0.9rem;">Tambah Kompetensi</a>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="mb-0">Data Kompetensi</h1>
+        <a href="{{ route('kompetensi.create') }}" class="btn btn-dark btn-sm">Tambah Kompetensi</a>
     </div>
 
-    <div class="card">
-        <form method="GET" action="{{ route('kompetensi.index') }}" style="margin-bottom: 1rem; display: flex; gap: 0.75rem; align-items: end;">
-            <div>
-                <label for="jurusan_id" style="display: block; font-size: 0.85rem; margin-bottom: 0.25rem;">Jurusan</label>
-                <select name="jurusan_id" id="jurusan_id" style="padding: 0.4rem 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
-                    <option value="">Semua Jurusan</option>
-                    @foreach ($jurusans as $jurusan)
-                        <option value="{{ $jurusan->id }}" @selected($selectedJurusan === $jurusan->id)>{{ $jurusan->nama }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div>
-                <label for="tanggal" style="display: block; font-size: 0.85rem; margin-bottom: 0.25rem;">Tanggal Dibuat</label>
-                <input type="date" name="tanggal" id="tanggal" value="{{ $selectedTanggal ?? '' }}"
-                    style="padding: 0.35rem 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
-            </div>
-            <button type="submit" style="padding: 0.45rem 1rem; background: #1b1b18; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Filter</button>
-            @if ($selectedJurusan || $selectedTanggal)
-                <a href="{{ route('kompetensi.index') }}" style="padding: 0.45rem 0.5rem; color: #444; font-size: 0.85rem;">Reset</a>
-            @endif
-        </form>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form method="GET" action="{{ route('kompetensi.index') }}" class="row g-2 align-items-end mb-3">
+                <div class="col-md-4">
+                    <label for="jurusan_id" class="form-label mb-1">Jurusan</label>
+                    <select name="jurusan_id" id="jurusan_id" class="form-select">
+                        <option value="">Semua Jurusan</option>
+                        @foreach ($jurusans as $jurusan)
+                            <option value="{{ $jurusan->id }}" @selected($selectedJurusan === $jurusan->id)>{{ $jurusan->nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="tanggal" class="form-label mb-1">Tanggal Dibuat</label>
+                    <input type="date" name="tanggal" id="tanggal" value="{{ $selectedTanggal ?? '' }}"
+                        class="form-control">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-dark">Filter</button>
+                </div>
+                @if ($selectedJurusan || $selectedTanggal)
+                    <div class="col-auto">
+                        <a href="{{ route('kompetensi.index') }}" class="btn btn-outline-secondary">Reset</a>
+                    </div>
+                @endif
+            </form>
 
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-            <thead>
-                <tr style="border-bottom: 1px solid #e3e3e0; text-align: left;">
-                    <th style="padding: 0.5rem;">No.</th>
-                    <th style="padding: 0.5rem;">Kode</th>
-                    <th style="padding: 0.5rem;">Nama</th>
-                    <th style="padding: 0.5rem;">Jurusan</th>
-                    <th style="padding: 0.5rem;">Dibuat</th>
-                    <th style="padding: 0.5rem;">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($kompetensi as $item)
-                    <tr style="border-bottom: 1px solid #f0f0f0;">
-                        <td style="padding: 0.5rem;">{{ $kompetensi->firstItem() + $loop->index }}</td>
-                        <td style="padding: 0.5rem;">{{ $item->kode }}</td>
-                        <td style="padding: 0.5rem;">{{ $item->nama }}</td>
-                        <td style="padding: 0.5rem;">{{ $item->jurusan->nama }}</td>
-                        <td style="padding: 0.5rem;">{{ $item->created_at->isoFormat('D MMM YYYY') }}</td>
-                        <td style="padding: 0.5rem;">
-                            <a href="{{ route('kompetensi.edit', $item) }}" style="color: #06c; margin-right: 0.75rem;">Edit</a>
-                            <form method="POST" action="{{ route('kompetensi.destroy', $item) }}" style="display: inline;" onsubmit="return confirm('Hapus kompetensi ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" style="background: none; border: none; color: #c00; cursor: pointer; padding: 0; font-size: 0.9rem;">Hapus</button>
-                            </form>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="6" style="padding: 0.5rem; color: #777;">Tidak ada data kompetensi.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-
-        <div style="margin-top: 1rem;">
-            {{ $kompetensi->links() }}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>No.</th>
+                            <th>Kode</th>
+                            <th>Nama</th>
+                            <th>Jurusan</th>
+                            <th>Dibuat</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($kompetensi as $item)
+                            <tr>
+                                <td>{{ $kompetensi->firstItem() + $loop->index }}</td>
+                                <td>{{ $item->kode }}</td>
+                                <td>{{ $item->nama }}</td>
+                                <td>{{ $item->jurusan->nama }}</td>
+                                <td>{{ $item->created_at->isoFormat('D MMM YYYY') }}</td>
+                                <td>
+                                    <a href="{{ route('kompetensi.edit', $item) }}"
+                                        class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                                    <form method="POST" action="{{ route('kompetensi.destroy', $item) }}" class="d-inline"
+                                        onsubmit="return confirm('Hapus kompetensi ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Hapus</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center text-muted">Tidak ada data kompetensi.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </div>
+
+    <div class="mt-3">
+        {{ $kompetensi->links() }}
     </div>
 @endsection
