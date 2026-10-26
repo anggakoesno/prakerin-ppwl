@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Kompetensi')
+@section('title', 'Data Kompetensi')
 
 @section('content')
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">

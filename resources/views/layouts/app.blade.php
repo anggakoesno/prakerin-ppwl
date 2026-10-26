@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Dashboard') - {{ config('app.name', 'Prakerin') }}</title>
+    <title>@yield('title', 'Dashboard')</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: system-ui, sans-serif; background: #f5f5f5; color: #1b1b18; }
+        body { font-family: system-ui, sans-serif; background: #ffffff; color: #1b1b18; }
         nav { background: #fff; border-bottom: 1px solid #e3e3e0; padding: 0.75rem 1.5rem; display: flex; align-items: center; gap: 1.5rem; }
         nav .brand { font-weight: 600; text-decoration: none; color: #1b1b18; }
         nav a { text-decoration: none; color: #444; font-size: 0.9rem; }
@@ -18,7 +18,7 @@
 </head>
 <body>
     <nav>
-        <a href="{{ route('dashboard') }}" class="brand">{{ config('app.name', 'Prakerin') }}</a>
+        <a href="{{ route('dashboard') }}" class="brand">Prakerin</a>
         <a href="{{ route('dashboard') }}">Dashboard</a>
         <a href="{{ route('jurusan.index') }}">Jurusan</a>
         <a href="{{ route('kompetensi.index') }}">Kompetensi</a>
