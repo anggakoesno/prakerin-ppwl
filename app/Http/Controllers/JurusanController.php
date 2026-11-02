@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class JurusanController extends Controller
 {
+    // Construct
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      */

@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class KompetensiController extends Controller
 {
+    // Construct    
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(Request $request)
     {
         $jurusanId = $request->integer('jurusan_id');
