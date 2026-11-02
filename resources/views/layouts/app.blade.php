@@ -22,20 +22,39 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+            {{-- Navbar --}}
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    {{-- Dashboard --}}
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
                             href="{{ route('dashboard') }}">Dashboard</a>
                     </li>
+
+                    {{-- Jurusan --}}
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('jurusan.*') ? 'active' : '' }}"
                             href="{{ route('jurusan.index') }}">Jurusan</a>
                     </li>
+
+                    {{-- Kompetensi --}}
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('kompetensi.*') ? 'active' : '' }}"
                             href="{{ route('kompetensi.index') }}">Kompetensi</a>
                     </li>
+
+                    {{-- Users --}}
+                    @auth
+                        @if (Auth::user()->level === 'admin')
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}"
+                                    href="{{ route('users.index') }}">Users</a>
+                            </li>
+                        @endif
+                    @endauth
+
+
                 </ul>
 
                 <form method="GET" action="{{ route('search.index') }}" class="d-flex me-2" role="search">
