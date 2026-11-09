@@ -54,6 +54,16 @@
                         @endif
                     @endauth
 
+                    {{-- Lowongan Pekerjaan --}}
+                    @auth
+                        @if (Auth::user()->level === 'admin')
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('jobs.*') ? 'active' : '' }}"
+                                    href="{{ route('jobs.index') }}">Lowongan Pekerjaan</a>
+                            </li>
+                        @endif
+                    @endauth
+
 
                 </ul>
 
