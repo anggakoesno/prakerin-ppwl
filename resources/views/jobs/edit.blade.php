@@ -21,6 +21,20 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="jenis_pekerjaan" class="form-label">Jenis Pekerjaan</label>
+                    <select name="jenis_pekerjaan" id="jenis_pekerjaan"
+                        class="form-select @error('jenis_pekerjaan') is-invalid @enderror">
+                        <option value="">-- Pilih --</option>
+                        <option value="Full-time" @selected(old('jenis_pekerjaan', $job->jenis_pekerjaan ?? '') === 'Full-time')>Full-time</option>
+                        <option value="Part-time" @selected(old('jenis_pekerjaan', $job->jenis_pekerjaan ?? '') === 'Part-time')>Part-time</option>
+                    </select>
+                    @error('jenis_pekerjaan')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+
+                <div class="mb-3">
                     <label for="description" class="form-label">Deskripsi</label>
                     <textarea name="description" id="description" rows="4"
                         class="form-control @error('description') is-invalid @enderror">{{ old('description', $job->description) }}</textarea>

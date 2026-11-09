@@ -38,6 +38,7 @@ class JobController extends Controller
             'company' => 'required|string|max:255',
             'salary' => 'nullable|integer',
             'logo' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'jenis_pekerjaan' => 'nullable|string|in:Full-time,Part-time',
         ]);
 
         $logoPath = null;
@@ -52,6 +53,7 @@ class JobController extends Controller
             'company' => $request->company,
             'salary' => $request->salary,
             'logo' => $logoPath,
+            'jenis_pekerjaan' => $request->jenis_pekerjaan,
         ]);
 
         return redirect()->route('jobs.index')->with('success', 'Lowongan berhasil ditambahkan.');
@@ -85,6 +87,7 @@ class JobController extends Controller
             'company' => 'required|string|max:255',
             'salary' => 'nullable|integer',
             'logo' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'jenis_pekerjaan' => 'nullable|string|in:Full-time,Part-time',
         ]);
 
         if ($request->hasFile('logo')) {
@@ -99,6 +102,7 @@ class JobController extends Controller
         $job->location = $request->location;
         $job->company = $request->company;
         $job->salary = $request->salary;
+        $job->jenis_pekerjaan = $request->jenis_pekerjaan;
         $job->save();
 
         return redirect()->route('jobs.index')->with('success', 'Lowongan berhasil diperbarui.');
