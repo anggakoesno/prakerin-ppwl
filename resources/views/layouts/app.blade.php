@@ -36,9 +36,15 @@
                     </li>
 
                     {{-- Jurusan --}}
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('jurusan.*') ? 'active' : '' }}"
+                     <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('jurusan.index') || request()->routeIs('jurusan.create') || request()->routeIs('jurusan.edit') ? 'active' : '' }}"
                             href="{{ route('jurusan.index') }}">Jurusan</a>
+                    </li>
+
+                    {{-- List Jurusan --}}
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('jurusan.list') || request()->routeIs('jurusan.detail') ? 'active' : '' }}"
+                            href="{{ route('jurusan.list') }}">List Jurusan</a>
                     </li>
 
                     {{-- Kompetensi --}}

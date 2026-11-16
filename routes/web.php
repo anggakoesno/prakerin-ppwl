@@ -16,12 +16,16 @@ Auth::routes([
 ]);
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
 Route::resource('jurusan', JurusanController::class)->except('show');
+Route::get('/list-jurusan', [JurusanController::class, 'listJurusan'])->name('jurusan.list');
+Route::get('/detail-jurusan/{title}', [JurusanController::class, 'detailJurusan'])->name('jurusan.detail');
+
 Route::resource('kompetensi', KompetensiController::class)->except('show');
+
 Route::get('/pencarian', [SearchController::class, 'index'])->name('search.index');
 
 Route::resource('users', UserController::class)->except('show');
-
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('jobs', JobController::class)->middleware(['auth', 'isAdmin']);
