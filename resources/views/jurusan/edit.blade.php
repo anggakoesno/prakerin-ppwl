@@ -7,7 +7,7 @@
 
     <div class="card shadow-sm" style="max-width: 480px;">
         <div class="card-body">
-            <form method="POST" action="{{ route('jurusan.update', $jurusan) }}">
+            <form method="POST" action="{{ route('jurusan.update', $jurusan) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -25,6 +25,21 @@
                     <input type="text" name="nama" id="nama" value="{{ old('nama', $jurusan->nama) }}"
                         class="form-control @error('nama') is-invalid @enderror">
                     @error('nama')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="foto" class="form-label">Foto Jurusan</label>
+                    @if (isset($jurusan) && $jurusan->foto)
+                        <div class="mb-2">
+                            <img src="{{ asset('storage/' . $jurusan->foto) }}" alt="foto" width="120"
+                                class="rounded">
+                        </div>
+                    @endif
+                    <input type="file" name="foto" id="foto" accept="image/*"
+                        class="form-control @error('foto') is-invalid @enderror">
+                    @error('foto')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>

@@ -39,7 +39,20 @@ class JurusanController extends Controller
         $validated = $request->validate([
             'kode' => 'required|string|max:10|unique:jurusan,kode',
             'nama' => 'required|string|max:255',
+            'foto' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
         ]);
+
+        if ($request->hasFile('foto')) {
+            $fileName = time() . '_' . $request->file('foto')->getClientOriginalName();
+            $filePath = $request->file('foto')->storeAs('jurusan_foto', $fileName, 'public');
+            $validated['foto'] = $filePath;
+        }
+
+        $validated['jurusan_seo'] = \Illuminate\Support\Str::slug($validated['nama']);
+        // hindari duplikat slug
+        if (\App\Models\Jurusan::where('jurusan_seo', $validated['jurusan_seo'])->exists()) {
+            $validated['jurusan_seo'] .= '-' . time();
+        }
 
         Jurusan::create($validated);
 
@@ -64,7 +77,22 @@ class JurusanController extends Controller
         $validated = $request->validate([
             'kode' => 'required|string|max:10|unique:jurusan,kode,' . $jurusan->id,
             'nama' => 'required|string|max:255',
+            'foto' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
         ]);
+
+        if ($request->hasFile('foto')) {
+            if ($jurusan->foto) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($jurusan->foto);
+            }
+            $fileName = time() . '_' . $request->file('foto')->getClientOriginalName();
+            $filePath = $request->file('foto')->storeAs('jurusan_foto', $fileName, 'public');
+            $validated['foto'] = $filePath;
+        }
+
+        $validated['jurusan_seo'] = \Illuminate\Support\Str::slug($validated['nama']);
+        if (\App\Models\Jurusan::where('jurusan_seo', $validated['jurusan_seo'])->where('id', '!=', $jurusan->id)->exists()) {
+            $validated['jurusan_seo'] .= '-' . $jurusan->id;
+        }
 
         $jurusan->update($validated);
 
@@ -78,6 +106,25 @@ class JurusanController extends Controller
     {
         $jurusan->delete();
 
+        if ($jurusan->foto) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($jurusan->foto);
+        }
+
         return redirect()->route('jurusan.index')->with('success', 'Jurusan berhasil dihapus.');
+    }
+
+    public function listJurusan()
+    {
+        $jurusans = Jurusan::whereNotNull('foto')->orderBy('nama')->paginate(12);
+
+        return view('jurusan.list', compact('jurusans'));
+    }
+
+    public function detailJurusan(String $title)
+    {
+        $jurusan = Jurusan::where('jurusan_seo', $title)->firstOrFail();
+        $kompetensis = $jurusan->photos()->orderBy('id', 'desc')->paginate(6);
+
+        return view('jurusan.detail', compact('jurusan', 'kompetensis'));
     }
 }
