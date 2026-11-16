@@ -10,6 +10,9 @@
 
     <!-- Scripts and Styles -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    {{-- Lightbox2 --}}
+    <link rel="stylesheet" href="{{ asset('lightbox2/dist/css/lightbox.min.css') }}">
 </head>
 
 <body class="bg-light">
@@ -64,6 +67,11 @@
                         @endif
                     @endauth
 
+                    {{-- Gallery --}}
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('gallery.*') ? 'active' : '' }}"
+                            href="{{ route('gallery.index') }}">Gallery</a>
+                    </li>
 
                 </ul>
 
@@ -128,6 +136,9 @@
             @yield('content')
         </div>
     </main>
+
+    {{-- Lightbox2 --}}
+    <script src="{{ asset('lightbox2/dist/js/lightbox-plus-jquery.min.js') }}"></script>
 </body>
 
 </html>
