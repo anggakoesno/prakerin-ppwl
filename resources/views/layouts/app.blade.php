@@ -36,7 +36,7 @@
                     </li>
 
                     {{-- Jurusan --}}
-                     <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('jurusan.index') || request()->routeIs('jurusan.create') || request()->routeIs('jurusan.edit') ? 'active' : '' }}"
                             href="{{ route('jurusan.index') }}">Jurusan</a>
                     </li>
@@ -78,6 +78,24 @@
                         <a class="nav-link {{ request()->routeIs('gallery.*') ? 'active' : '' }}"
                             href="{{ route('gallery.index') }}">Gallery</a>
                     </li>
+
+                    {{-- Notifikasi --}}
+                    @auth
+                        @if (auth()->user()->isAdmin())
+                            <li class="nav-item d-flex align-items-center ms-lg-2">
+                                <a href="{{ route('dashboard') }}" class="btn btn-sm btn-light position-relative">
+                                    Notifikasi
+                                    @if (auth()->user()->unreadNotifications->count())
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            {{ auth()->user()->unreadNotifications->count() }}
+                                        </span>
+                                    @endif
+                                </a>
+                            </li>
+                        @endif
+                    @endauth
+
 
                 </ul>
 

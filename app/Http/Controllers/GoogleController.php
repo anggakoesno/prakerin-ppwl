@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Notifications\UserBaruNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
 use Throwable;
 
@@ -22,8 +23,9 @@ class GoogleController extends Controller
         try {
             $googleUser = Socialite::driver('google')->user();
         } catch (Throwable $e) {
+            Log::error('Google OAuth callback error: ' . $e->getMessage());
             return redirect()->route('login')
-                ->with('error', 'Login dengan Google gagal atau dibatalkan. Silakan coba lagi.');
+                ->with('error', 'Login dengan Google gagal: ' . $e->getMessage());
         }
 
         $user = User::where('google_id', $googleUser->getId())
