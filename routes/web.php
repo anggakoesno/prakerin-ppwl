@@ -39,3 +39,4 @@ Route::middleware('guest')->group(function () {
     Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
 });
 
+Route::post('/notifikasi/baca-semua', [DashboardController::class, 'bacaSemua'])->name('notifikasi.baca')->middleware('auth');
